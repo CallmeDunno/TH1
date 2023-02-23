@@ -1,8 +1,11 @@
 package com.example.th1;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
         contacts.add(new Contact(0, "Nguyen Quoc Dung", "0337693148", false));
         contacts.add(new Contact(0, "Nguyen Quoc Dung", "0337693148", true));
         contacts.add(new Contact(0, "Nguyen Quoc Dung", "0337693148", true));
+        contacts.add(new Contact(0, "Nguyen Quoc Dung", "0337693148", true));
+        contacts.add(new Contact(0, "Nguyen Quoc Dung", "0337693148", true));
+        contacts.add(new Contact(0, "Nguyen Quoc Dung", "0337693148", true));
+        contacts.add(new Contact(0, "Nguyen Quoc Dung", "0337693148", true));
         contactAdapter = new ContactAdapter(MainActivity.this, R.layout.list_item, contacts);
         listView.setAdapter(contactAdapter);
     }
@@ -42,22 +49,55 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         init();
 
+        Intent intent = getIntent();
+        if (intent != null){
+            Bundle bundle = intent.getBundleExtra("bundle");
+            if (bundle != null){
+                String n = bundle.getString("name");
+                String p = bundle.getString("phone");
+                contacts.add(new Contact(0, n, p, false));
+                contactAdapter.notifyDataSetChanged();
+            }
+
+        }
+
         button_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(MainActivity.this, AddContact.class));
             }
         });
 
         button_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for (int i = 0; i < contacts.size(); i++){
-                    if (contacts.get(i).getStatus()){
-                        contacts.remove(i);
-                        contactAdapter.notifyDataSetChanged();
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Notification");
+                builder.setMessage("Are you sure?");
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int pos) {
+                        for (int i = 0; i < contacts.size(); i++){
+                            if (contacts.get(i).getStatus()){
+                                contacts.remove(i);
+                                contactAdapter.notifyDataSetChanged();
+                            }
+                        }
                     }
-                }
+                });
+                builder.setNeutralButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                builder.show();
 
             }
         });

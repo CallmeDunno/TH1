@@ -1,6 +1,8 @@
 package com.example.th1;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -52,6 +55,8 @@ public class ContactAdapter extends BaseAdapter {
             viewHolder.tv_name = view.findViewById(R.id.tv_name);
             viewHolder.tv_phone = view.findViewById(R.id.tv_phone);
             viewHolder.cb_status = view.findViewById(R.id.cb_status);
+            viewHolder.img_call = view.findViewById(R.id.img_call);
+            viewHolder.img_send = view.findViewById(R.id.img_sms);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -66,6 +71,26 @@ public class ContactAdapter extends BaseAdapter {
         } else {
             viewHolder.cb_status.setChecked(false);
         }
+
+        viewHolder.img_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentCall = new Intent();
+                intentCall.setAction(Intent.ACTION_DIAL);
+                intentCall.setData(Uri.parse("tel:" + c.getPhone()));
+                context.startActivity(intentCall);
+            }
+        });
+
+        viewHolder.img_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentSend = new Intent();
+                intentSend.setAction(Intent.ACTION_SENDTO);
+                intentSend.setData(Uri.parse("sms:" + c.getPhone()));
+                context.startActivity(intentSend);
+            }
+        });
 
         viewHolder.cb_status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -87,5 +112,7 @@ public class ContactAdapter extends BaseAdapter {
 
     private class ViewHolder{
         TextView tv_name, tv_phone;
-        CheckBox cb_status;}
+        CheckBox cb_status;
+        ImageView img_call, img_send;
+    }
 }
