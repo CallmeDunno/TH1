@@ -9,6 +9,7 @@ public enum StringQuery {
     DeleteAllData ("DELETE FROM db_CONTACT"),
     DeleteTable ("DROP TABLE IF EXISTS db_CONTACT");
 
+
     public String getQuery() {
         return query;
     }
