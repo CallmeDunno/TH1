@@ -118,7 +118,9 @@ public class ContactAdapter extends BaseAdapter {
                         count++;
                     }
                 }
-                Toast.makeText(context, "Số người có cùng tên " + strName + ": " + count , Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Số người có cùng tên " + strName + ": " + count
+                        , Toast.LENGTH_SHORT).show();
+
             }
         });
 
