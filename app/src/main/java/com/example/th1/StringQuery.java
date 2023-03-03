@@ -16,7 +16,6 @@ public enum StringQuery {
 
     private String query;
 
-
     StringQuery(String query) {
         this.query = query;
     }

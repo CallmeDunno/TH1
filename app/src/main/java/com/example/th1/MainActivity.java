@@ -164,4 +164,5 @@ public class MainActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.dialog_edit);
 
     }
+
 }
