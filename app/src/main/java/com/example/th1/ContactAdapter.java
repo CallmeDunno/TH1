@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -104,6 +105,20 @@ public class ContactAdapter extends BaseAdapter {
                     viewHolder.cb_status.setChecked(c.getStatus());
 
                 }
+            }
+        });
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String strName = contactList.get(i).getLastName();
+                int count = 0;
+                for (Contact c : contactList){
+                    if (c.getLastName().equals(strName)){
+                        count++;
+                    }
+                }
+                Toast.makeText(context, "Số người có cùng tên " + strName + ": " + count , Toast.LENGTH_SHORT).show();
             }
         });
 
